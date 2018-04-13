@@ -1,0 +1,313 @@
+import * as ts from "typescript"
+import { TsDoxModifiers, TsDoxDecorator, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor } from "../runtime"
+
+export function location(node: ts.Node, src: ts.SourceFile): TsDoxLocation {
+  const { line, character } = src.getLineAndCharacterOfPosition(node.getStart())
+  return { line: line, character: character, file: src.fileName }
+}
+
+export function remarks(node: ts.Node): string {
+  const doc = (ts.getJSDocTags(node) || []).find((it) => it.tagName.escapedText === "remarks")
+  return doc ? doc.comment.trim() : ""
+}
+
+export function modifiers(flags: ts.ModifierFlags): TsDoxModifiers {
+  const result: TsDoxModifiers = {}
+  if (flags) {
+    if (flags & ts.ModifierFlags.Private) result.isPrivate = true
+    if (flags & ts.ModifierFlags.Public) result.isPublic = true
+    if (flags & ts.ModifierFlags.Protected) result.isProtected = true
+    if (flags & ts.ModifierFlags.Abstract) result.isAbstract = true
+    if (flags & ts.ModifierFlags.Readonly) result.isReadonly = true
+    if (flags & ts.ModifierFlags.Static) result.isStatic = true
+    if (flags & ts.ModifierFlags.Export) result.isExported = true
+  }
+  return result
+}
+
+export function summary(node: ts.Node, root: ts.SourceFile): string {
+  const text = root.getText()
+  const comments = ts.getLeadingCommentRanges(text, node.pos) || []
+  const comment = comments[comments.length - 1]
+  if (!comment) return ""
+  const lines = text
+    .substring(comment.pos, comment.end)
+    .replace(/^\s*(\/\/)|(\/\*+)|(\*+\/)|(\*+)/ig, "")
+    .split('\n')
+    .map(it => it.trim())
+  const limit = lines.findIndex((it) => /^@/.test(it))
+
+  return lines
+    .filter((it, index) => limit === -1 || index < limit)
+    .join('\n')
+    .trim()
+}
+
+export function tokenName(node: ts.PropertyName | ts.Identifier | ts.StringLiteral | ts.NumericLiteral | ts.QualifiedName | ts.BindingName) {
+  if (!node) {
+    return ""
+  }
+  if (ts.isIdentifier(node)) {
+    return node.escapedText.toString()
+  }
+  if (ts.isStringLiteral(node)) {
+    return `"${node.text}"`
+  }
+  if (ts.isNumericLiteral(node)) {
+    return node.text
+  }
+  if (ts.isQualifiedName(node)) {
+    return `${tokenName(node.left)}.${node.right.escapedText}`
+  }
+  return (node as ts.Node).getText()
+}
+
+export function typeName(node: ts.TypeNode): string {
+  if (!node) {
+    return ""
+  }
+
+  if (ts.isArrayTypeNode(node)) {
+    return `Array<${typeName(node.elementType)}>`
+  }
+
+  if (ts.isTupleTypeNode(node)) {
+    return `[${node.elementTypes.map(it => typeName(it))}]`
+  }
+  if (ts.isTypeReferenceNode(node)) {
+    let name = tokenName(node.typeName)
+    if (node.typeArguments) {
+      name += `<${node.typeArguments.map(it => typeName(it)).join(", ")}>`
+    }
+    return name
+  }
+  switch (node.kind) {
+    case ts.SyntaxKind.StringKeyword:
+      return "string"
+    case ts.SyntaxKind.BooleanKeyword:
+      return "boolean"
+    case ts.SyntaxKind.NumberKeyword:
+      return "number"
+    case ts.SyntaxKind.AnyKeyword:
+      return "any"
+    case ts.SyntaxKind.VoidKeyword:
+      return "void"
+    case ts.SyntaxKind.NullKeyword:
+      return "null"
+    case ts.SyntaxKind.UndefinedKeyword:
+      return "undefined"
+    case ts.SyntaxKind.NeverKeyword:
+      return "never"
+  }
+  return ""
+}
+
+export function makeDecorator(node: ts.Decorator, root: ts.SourceFile): TsDoxDecorator {
+  const expr = node.expression["expression"] || {}
+  const args = (node.expression["arguments"] || []).map((arg) => {
+    if (ts.isStringLiteral(arg) || ts.isNumericLiteral(arg)) {
+      return arg.getText(root)
+    }
+    if (ts.isObjectLiteralExpression(arg)) {
+      const obj = {}
+      arg.properties.forEach((it) => {
+        if (ts.isPropertyAssignment(it)) {
+          obj[tokenName(it.name)] = it.initializer.getText(root)
+          return
+        }
+        if (ts.isSpreadAssignment(it)) {
+          obj[tokenName(it.name)] = it.expression.getText(root)
+          return
+        }
+        obj[tokenName(it.name)] = "<...>"
+      })
+      return obj
+    }
+    switch (arg.kind) {
+      case ts.SyntaxKind.TrueKeyword:
+        return "true"
+      case ts.SyntaxKind.FalseKeyword:
+        return "false"
+      case ts.SyntaxKind.NullKeyword:
+        return "null"
+    }
+    return `<${ts.SyntaxKind[arg.kind]}>`
+  })
+
+  return {
+    kind: "decorator",
+    name: `${expr.escapedText}`,
+    args: args
+  }
+}
+
+export function parameter(node: ts.ParameterDeclaration, root: ts.SourceFile): TsDoxParameter {
+  const tags = ts.getJSDocParameterTags(node)
+  return {
+    kind: "parameter",
+    name: tokenName(node.name),
+    type: typeName(node.type),
+    summary: tags && tags.length ? tags[0].comment : "",
+    isOptional: !!node.questionToken,
+    isSpread: !!node.dotDotDotToken,
+  }
+}
+
+export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile): TsDoxFunction {
+  return {
+    kind: "function",
+    name: tokenName(node.name),
+    returnType: typeName(node.type),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    parameters: node.parameters.map((it) => parameter(it, root)),
+    decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
+  }
+}
+
+export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.SourceFile): TsDoxConstructor {
+  return {
+    kind: "constructor",
+    name: "__constructor",
+    returnType: typeName(node.type),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    parameters: node.parameters.map((it) => parameter(it, root)),
+    decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
+  }
+}
+
+
+export function makeMethod(node: ts.MethodDeclaration, root: ts.SourceFile): TsDoxMethod {
+  return {
+    kind: "method",
+    name: tokenName(node.name),
+    returnType: typeName(node.type),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    parameters: node.parameters.map((it) => parameter(it, root)),
+    decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
+  }
+}
+
+export function makeProperty(
+  node: ts.PropertyDeclaration | ts.PropertySignature | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration,
+  root: ts.SourceFile,
+): TsDoxProperty {
+
+  return {
+    kind: "property",
+    name: tokenName(node.name),
+    returnType: typeName(node.type),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    isOptional: !!node.questionToken,
+    isGetter: ts.isGetAccessorDeclaration(node),
+    isSetter: ts.isGetAccessorDeclaration(node),
+    decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
+  }
+}
+
+export function makeModule(node: ts.ModuleDeclaration, root: ts.SourceFile) {
+  return {
+    kind: "module",
+    name: node.name.text,
+    location: location(node, root),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
+  }
+}
+
+export function makeClass(node: ts.ClassDeclaration, root: ts.SourceFile): TsDoxClass {
+  return {
+    kind: "class",
+    name: node.name.text,
+    location: location(node, root),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root)),
+    methods: {},
+    properties: {}
+  }
+}
+
+export function makeInterface(node: ts.InterfaceDeclaration, root: ts.SourceFile): TsDoxInterface {
+
+  const result: TsDoxInterface = {
+    kind: "interface",
+    name: node.name.text,
+    location: location(node, root),
+    summary: summary(node, root),
+    remarks: remarks(node),
+    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    properties: {}
+  }
+
+  return result
+}
+
+export function walk(root: ts.SourceFile, node: ts.Node, data: any) {
+  ts.forEachChild(node, (it) => visit(root, it, data))
+  return data
+}
+
+export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
+
+  if (ts.isFunctionDeclaration(node)) {
+    const data = makeFunction(node, root)
+    out.functions = out.functions || {}
+    out.functions[data.name] = data
+    return
+  }
+
+  if (ts.isMethodDeclaration(node)) {
+    const data = makeMethod(node, root)
+    out.methods = out.methods || {}
+    out.methods[data.name] = data
+    return
+  }
+
+  if (ts.isPropertyDeclaration(node) || ts.isPropertySignature(node) || ts.isGetAccessorDeclaration(node) || ts.isSetAccessorDeclaration(node)) {
+    const data = makeProperty(node, root)
+    out.properties = out.properties || {}
+    if (!out.properties[data.name] || ts.isGetAccessorDeclaration(node)) {
+      out.properties[data.name] = data
+    }
+    return
+  }
+
+  if (ts.isModuleDeclaration(node)) {
+    const data = makeModule(node, root)
+    out.modules = out.modules || {}
+    out.modules[data.name] = walk(root, node, data)
+    return
+  }
+
+  if (ts.isClassDeclaration(node)) {
+    const data = makeClass(node, root)
+    out.classes = out.classes || {}
+    out.classes[data.name] = walk(root, node, data)
+    return
+  }
+
+  if (ts.isInterfaceDeclaration(node)) {
+    const data = makeInterface(node, root)
+    out.interfaces = out.interfaces || {}
+    out.interfaces[data.name] = walk(root, node, data)
+    return
+  }
+
+  if (ts.isConstructorDeclaration(node)) {
+    out.constructor = makeConstructor(node, root)
+    return
+  }
+
+  walk(root, node, out)
+}

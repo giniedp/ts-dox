@@ -1,0 +1,30 @@
+{
+  "name": "ts-dox",
+  "version": "0.0.1",
+  "description": "Transforms typescript AST to JSON",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "es2015": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "author": "Alexander Gräfenstein",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "github.com/giniedp/ts-dox.git"
+  },
+  "devDependencies": {
+    "typescript": "^2.7.2",
+    "@types/node": "^9.6.5"
+  },
+  "keywords": [
+    "typescript",
+    "documentation",
+    "extract",
+    "json",
+    "library"
+  ]
+}
