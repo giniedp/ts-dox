@@ -1,9 +1,15 @@
 import * as ts from "typescript"
-import { TsDoxModifiers, TsDoxDecorator, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor } from "../runtime"
+import * as path from "path"
+
+import { TsDoxDecorator, TsDoxEnum, TsDoxAccessModifiers, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor } from "../runtime"
 
 export function location(node: ts.Node, src: ts.SourceFile): TsDoxLocation {
   const { line, character } = src.getLineAndCharacterOfPosition(node.getStart())
-  return { line: line, character: character, file: src.fileName }
+  return {
+    line: line,
+    character: character,
+    file: path.relative(process.cwd(), src.fileName),
+  }
 }
 
 export function remarks(node: ts.Node): string {
@@ -11,8 +17,8 @@ export function remarks(node: ts.Node): string {
   return doc ? doc.comment.trim() : ""
 }
 
-export function modifiers(flags: ts.ModifierFlags): TsDoxModifiers {
-  const result: TsDoxModifiers = {}
+export function entityAccess(flags: ts.ModifierFlags): TsDoxAccessModifiers {
+  const result: TsDoxAccessModifiers = {}
   if (flags) {
     if (flags & ts.ModifierFlags.Private) result.isPrivate = true
     if (flags & ts.ModifierFlags.Public) result.isPublic = true
@@ -41,6 +47,24 @@ export function summary(node: ts.Node, root: ts.SourceFile): string {
     .filter((it, index) => limit === -1 || index < limit)
     .join('\n')
     .trim()
+}
+
+export function jsdoc(node: ts.Node) {
+  const result = {}
+  ts.getJSDocTags(node).forEach((tag) => {
+    const name = tag.tagName.text
+    // if no comment is given, use "true" as value
+    const value = tag.comment || true
+    if (!(name in result)) {
+      result[name] = value
+      return
+    }
+    if (!Array.isArray(result[name])) {
+      result[name] = [result[name]]
+    }
+    result[name].push(value)
+  })
+  return result
 }
 
 export function tokenName(node: ts.PropertyName | ts.Identifier | ts.StringLiteral | ts.NumericLiteral | ts.QualifiedName | ts.BindingName) {
@@ -155,12 +179,13 @@ export function parameter(node: ts.ParameterDeclaration, root: ts.SourceFile): T
 
 export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile): TsDoxFunction {
   return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
+    location: location(node, root),
     kind: "function",
     name: tokenName(node.name),
     returnType: typeName(node.type),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     parameters: node.parameters.map((it) => parameter(it, root)),
     decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
   }
@@ -168,12 +193,13 @@ export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile):
 
 export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.SourceFile): TsDoxConstructor {
   return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
+    location: location(node, root),
     kind: "constructor",
     name: "__constructor",
     returnType: typeName(node.type),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     parameters: node.parameters.map((it) => parameter(it, root)),
     decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
   }
@@ -182,12 +208,13 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
 
 export function makeMethod(node: ts.MethodDeclaration, root: ts.SourceFile): TsDoxMethod {
   return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
+    location: location(node, root),
     kind: "method",
     name: tokenName(node.name),
     returnType: typeName(node.type),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     parameters: node.parameters.map((it) => parameter(it, root)),
     decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
   }
@@ -197,14 +224,13 @@ export function makeProperty(
   node: ts.PropertyDeclaration | ts.PropertySignature | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration,
   root: ts.SourceFile,
 ): TsDoxProperty {
-
   return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
     kind: "property",
     name: tokenName(node.name),
     returnType: typeName(node.type),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     isOptional: !!node.questionToken,
     isGetter: ts.isGetAccessorDeclaration(node),
     isSetter: ts.isGetAccessorDeclaration(node),
@@ -214,24 +240,24 @@ export function makeProperty(
 
 export function makeModule(node: ts.ModuleDeclaration, root: ts.SourceFile) {
   return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
     kind: "module",
     name: node.name.text,
     location: location(node, root),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
   }
 }
 
 export function makeClass(node: ts.ClassDeclaration, root: ts.SourceFile): TsDoxClass {
   return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
     kind: "class",
     name: node.name.text,
     location: location(node, root),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root)),
     methods: {},
     properties: {}
@@ -239,23 +265,44 @@ export function makeClass(node: ts.ClassDeclaration, root: ts.SourceFile): TsDox
 }
 
 export function makeInterface(node: ts.InterfaceDeclaration, root: ts.SourceFile): TsDoxInterface {
-
   const result: TsDoxInterface = {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
     kind: "interface",
     name: node.name.text,
     location: location(node, root),
     summary: summary(node, root),
-    remarks: remarks(node),
-    modifiers: modifiers(ts.getCombinedModifierFlags(node)),
+    docs: jsdoc(node),
     properties: {}
   }
-
   return result
 }
 
-export function walk(root: ts.SourceFile, node: ts.Node, data: any) {
-  ts.forEachChild(node, (it) => visit(root, it, data))
-  return data
+export function makeEnum(node: ts.EnumDeclaration, root: ts.SourceFile): TsDoxEnum {
+  const result: TsDoxEnum = {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
+    kind: "enum",
+    name: node.name.text,
+    location: location(node, root),
+    summary: summary(node, root),
+    docs: jsdoc(node),
+    members: node.members.map((it) => {
+      return {
+        name: tokenName(it.name),
+        value: it.initializer ? it.initializer.getText() : "",
+        summary: summary(it, root),
+        docs: jsdoc(it),
+      }
+    })
+  }
+  return result
+}
+
+export function walk(root: ts.SourceFile, node: ts.Node, out: any) {
+  ts.forEachChild(node, (it) => {
+    visit(root, it, out)
+    return false // false, to keep iterating
+  })
+  return out
 }
 
 export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
@@ -309,5 +356,16 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
     return
   }
 
-  walk(root, node, out)
+  if (ts.isEnumDeclaration(node)) {
+    const data = makeEnum(node, root)
+    out.enums = out.enums || {}
+    out.enums[data.name] = data
+    return
+  }
+
+  if (ts.isSourceFile(node)) {
+    out.file = location(node, root).file
+  }
+
+  return walk(root, node, out)
 }

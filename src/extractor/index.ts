@@ -1,24 +1,78 @@
 import * as fs from "fs"
+import * as path from "path"
 import * as ts from "typescript"
-import * as doc from "./lib"
+import { visit } from "./lib"
+import { Transform } from "stream"
 
-export function extract(srcFile: string | { path: string, contents: Buffer }, text?: string) {
-  let file = srcFile as string
-
-  if (srcFile["contents"] && !text) {
-    text = srcFile["contents"]
-    file = srcFile["path"]
+/**
+ * Parses the given file and extracts typescript AST as JSON
+ *
+ * @param file - Path to the file
+ * @param text - The file content
+ */
+export function extract(file: string, text?: string) {
+  if (!text) {
+    text = fs.readFileSync(file).toString()
   }
-  if (text) {
-    text = text.toString()
-  }
-
   const src = ts.createSourceFile(file, text, ts.ScriptTarget.ES2015, true)
-  return doc.walk(src, src, {})
+  return visit(src, src, {})
 }
 
-export function cmd() {
-  console.log(process.argv)
-  const result = extract(process.argv[0])
-  process.stdout.write(new Buffer(JSON.stringify(result, null, "  ")))
+function transformFile(options: {
+  concat?: string,
+  map?: (input: any) => any,
+  spacer?: number | string
+} = {}) {
+  return function(file, encoding, cb) {
+    const json = extract(file.path, file.contents.toString())
+    const mapped = options.map ? options.map(json) : json
+    const text = JSON.stringify(mapped, null, options.spacer || 0)
+    file.path = file.path.replace(/\.(ts|js|tsx)$/, ".json")
+    file.contents = new Buffer(text)
+    cb(null, file)
+  }
+}
+
+/**
+ * Creates a Transform object for eaxmple to be used in a gulp pipeline
+ */
+export function transform(options: {
+  concat?: string,
+  transform?: (input: any) => any,
+  spacer?: number | string
+} = {}) {
+
+  if (!options.concat) {
+    return new Transform({ objectMode: true, transform: transformFile(options) })
+  }
+
+  const files = []
+  function buffer(file, encoding, cb) {
+    transformFile(options)(file, encoding, () => {
+      files.push(file)
+      cb()
+    })
+  }
+  function flush(cb) {
+    const json = files
+      .sort((a, b) => a.path < b.path ? -1 : 1)
+      .map((f) => JSON.parse(f.contents.toString()))
+    const text = JSON.stringify(json, null, options.spacer || 0)
+
+    if (!files.length) {
+      cb(null)
+      return
+    }
+
+    const file = files[0]
+    files.length = 0
+    file.path = path.join(file.base, options.concat)
+    file.contents = new Buffer(text)
+    cb(null, file)
+  }
+  return new Transform({
+    objectMode: true,
+    transform: buffer,
+    flush: flush
+  })
 }

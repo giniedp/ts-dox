@@ -1,0 +1,1695 @@
+[
+	{
+		"file": "src/extractor/index.ts",
+		"functions": {
+			"extract": {
+				"isExported": true,
+				"location": {
+					"line": 12,
+					"character": 0,
+					"file": "src/extractor/index.ts"
+				},
+				"kind": "function",
+				"name": "extract",
+				"returnType": "",
+				"summary": "Parses the given file and extracts typescript AST as JSON",
+				"docs": {
+					"param": [
+						"- Path to the file",
+						"- The file content"
+					]
+				},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "file",
+						"type": "string",
+						"summary": "- Path to the file",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "text",
+						"type": "string",
+						"summary": "- The file content",
+						"isOptional": true,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"transformFile": {
+				"location": {
+					"line": 20,
+					"character": 0,
+					"file": "src/extractor/index.ts"
+				},
+				"kind": "function",
+				"name": "transformFile",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "options",
+						"type": "",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"transform": {
+				"isExported": true,
+				"location": {
+					"line": 38,
+					"character": 0,
+					"file": "src/extractor/index.ts"
+				},
+				"kind": "function",
+				"name": "transform",
+				"returnType": "",
+				"summary": "Creates a Transform object for eaxmple to be used in a gulp pipeline",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "options",
+						"type": "",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			}
+		}
+	},
+	{
+		"file": "src/extractor/lib.ts",
+		"functions": {
+			"location": {
+				"isExported": true,
+				"location": {
+					"line": 5,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "location",
+				"returnType": "TsDoxLocation",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Node",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "src",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"remarks": {
+				"isExported": true,
+				"location": {
+					"line": 14,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "remarks",
+				"returnType": "string",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Node",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"entityAccess": {
+				"isExported": true,
+				"location": {
+					"line": 19,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "entityAccess",
+				"returnType": "TsDoxAccessModifiers",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "flags",
+						"type": "ts.ModifierFlags",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"summary": {
+				"isExported": true,
+				"location": {
+					"line": 33,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "summary",
+				"returnType": "string",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Node",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"jsdoc": {
+				"isExported": true,
+				"location": {
+					"line": 51,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "jsdoc",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Node",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"tokenName": {
+				"isExported": true,
+				"location": {
+					"line": 69,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "tokenName",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"typeName": {
+				"isExported": true,
+				"location": {
+					"line": 88,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "typeName",
+				"returnType": "string",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.TypeNode",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeDecorator": {
+				"isExported": true,
+				"location": {
+					"line": 128,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeDecorator",
+				"returnType": "TsDoxDecorator",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Decorator",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"parameter": {
+				"isExported": true,
+				"location": {
+					"line": 167,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "parameter",
+				"returnType": "TsDoxParameter",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.ParameterDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeFunction": {
+				"isExported": true,
+				"location": {
+					"line": 179,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeFunction",
+				"returnType": "TsDoxFunction",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.FunctionDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeConstructor": {
+				"isExported": true,
+				"location": {
+					"line": 193,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeConstructor",
+				"returnType": "TsDoxConstructor",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.ConstructorDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeMethod": {
+				"isExported": true,
+				"location": {
+					"line": 208,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeMethod",
+				"returnType": "TsDoxMethod",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.MethodDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeProperty": {
+				"isExported": true,
+				"location": {
+					"line": 222,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeProperty",
+				"returnType": "TsDoxProperty",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeModule": {
+				"isExported": true,
+				"location": {
+					"line": 240,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeModule",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.ModuleDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeClass": {
+				"isExported": true,
+				"location": {
+					"line": 252,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeClass",
+				"returnType": "TsDoxClass",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.ClassDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeInterface": {
+				"isExported": true,
+				"location": {
+					"line": 266,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeInterface",
+				"returnType": "TsDoxInterface",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.InterfaceDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"makeEnum": {
+				"isExported": true,
+				"location": {
+					"line": 279,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "makeEnum",
+				"returnType": "TsDoxEnum",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.EnumDeclaration",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"walk": {
+				"isExported": true,
+				"location": {
+					"line": 299,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "walk",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Node",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "out",
+						"type": "any",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			},
+			"visit": {
+				"isExported": true,
+				"location": {
+					"line": 307,
+					"character": 0,
+					"file": "src/extractor/lib.ts"
+				},
+				"kind": "function",
+				"name": "visit",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [
+					{
+						"kind": "parameter",
+						"name": "root",
+						"type": "ts.SourceFile",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "node",
+						"type": "ts.Node",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					},
+					{
+						"kind": "parameter",
+						"name": "out",
+						"type": "any",
+						"summary": "",
+						"isOptional": false,
+						"isSpread": false
+					}
+				],
+				"decorators": []
+			}
+		}
+	},
+	{
+		"file": "src/index.ts"
+	},
+	{
+		"file": "src/runtime/index.ts"
+	},
+	{
+		"file": "src/runtime/types.ts",
+		"interfaces": {
+			"TsDoxDict": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxDict",
+				"location": {
+					"line": 0,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {}
+			},
+			"TsDoxFile": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxFile",
+				"location": {
+					"line": 4,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"classes": {
+						"kind": "property",
+						"name": "classes",
+						"returnType": "Map<string, TsDoxClass>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"interfaces": {
+						"kind": "property",
+						"name": "interfaces",
+						"returnType": "Map<string, TsDoxInterface>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"functions": {
+						"kind": "property",
+						"name": "functions",
+						"returnType": "Map<string, TsDoxFunction>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxLocation": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxLocation",
+				"location": {
+					"line": 9,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"line": {
+						"kind": "property",
+						"name": "line",
+						"returnType": "number",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"character": {
+						"kind": "property",
+						"name": "character",
+						"returnType": "number",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"file": {
+						"kind": "property",
+						"name": "file",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxAccessModifiers": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxAccessModifiers",
+				"location": {
+					"line": 14,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"isPrivate": {
+						"kind": "property",
+						"name": "isPrivate",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isPublic": {
+						"kind": "property",
+						"name": "isPublic",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isProtected": {
+						"kind": "property",
+						"name": "isProtected",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isAbstract": {
+						"kind": "property",
+						"name": "isAbstract",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isReadonly": {
+						"kind": "property",
+						"name": "isReadonly",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isStatic": {
+						"kind": "property",
+						"name": "isStatic",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isExported": {
+						"kind": "property",
+						"name": "isExported",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxEntity": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxEntity",
+				"location": {
+					"line": 23,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"name": {
+						"kind": "property",
+						"name": "name",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"summary": {
+						"kind": "property",
+						"name": "summary",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"docs": {
+						"kind": "property",
+						"name": "docs",
+						"returnType": "TsDoxDict<any>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxModule": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxModule",
+				"location": {
+					"line": 29,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxClass": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxClass",
+				"location": {
+					"line": 34,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"properties": {
+						"kind": "property",
+						"name": "properties",
+						"returnType": "TsDoxDict<TsDoxProperty>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"methods": {
+						"kind": "property",
+						"name": "methods",
+						"returnType": "TsDoxDict<TsDoxMethod>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxInterface": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxInterface",
+				"location": {
+					"line": 41,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"properties": {
+						"kind": "property",
+						"name": "properties",
+						"returnType": "TsDoxDict<TsDoxProperty>",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxFunction": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxFunction",
+				"location": {
+					"line": 46,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"returnType": {
+						"kind": "property",
+						"name": "returnType",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"parameters": {
+						"kind": "property",
+						"name": "parameters",
+						"returnType": "Array<TsDoxParameter>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxMethod": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxMethod",
+				"location": {
+					"line": 53,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"returnType": {
+						"kind": "property",
+						"name": "returnType",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"parameters": {
+						"kind": "property",
+						"name": "parameters",
+						"returnType": "Array<TsDoxParameter>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxConstructor": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxConstructor",
+				"location": {
+					"line": 60,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"returnType": {
+						"kind": "property",
+						"name": "returnType",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"parameters": {
+						"kind": "property",
+						"name": "parameters",
+						"returnType": "Array<TsDoxParameter>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxProperty": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxProperty",
+				"location": {
+					"line": 67,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"returnType": {
+						"kind": "property",
+						"name": "returnType",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isOptional": {
+						"kind": "property",
+						"name": "isOptional",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isGetter": {
+						"kind": "property",
+						"name": "isGetter",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isSetter": {
+						"kind": "property",
+						"name": "isSetter",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxParameter": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxParameter",
+				"location": {
+					"line": 75,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"name": {
+						"kind": "property",
+						"name": "name",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"type": {
+						"kind": "property",
+						"name": "type",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"summary": {
+						"kind": "property",
+						"name": "summary",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isOptional": {
+						"kind": "property",
+						"name": "isOptional",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"isSpread": {
+						"kind": "property",
+						"name": "isSpread",
+						"returnType": "boolean",
+						"summary": "",
+						"docs": {},
+						"isOptional": true,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxDecorator": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxDecorator",
+				"location": {
+					"line": 83,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"name": {
+						"kind": "property",
+						"name": "name",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"args": {
+						"kind": "property",
+						"name": "args",
+						"returnType": "Array<any>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxEnum": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxEnum",
+				"location": {
+					"line": 88,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"kind": {
+						"kind": "property",
+						"name": "kind",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"members": {
+						"kind": "property",
+						"name": "members",
+						"returnType": "Array<TsDoxEnumMember>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			},
+			"TsDoxEnumMember": {
+				"isExported": true,
+				"kind": "interface",
+				"name": "TsDoxEnumMember",
+				"location": {
+					"line": 93,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"properties": {
+					"name": {
+						"kind": "property",
+						"name": "name",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"value": {
+						"kind": "property",
+						"name": "value",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"summary": {
+						"kind": "property",
+						"name": "summary",
+						"returnType": "string",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					},
+					"docs": {
+						"kind": "property",
+						"name": "docs",
+						"returnType": "TsDoxDict<any>",
+						"summary": "",
+						"docs": {},
+						"isOptional": false,
+						"isGetter": false,
+						"isSetter": false,
+						"decorators": []
+					}
+				}
+			}
+		},
+		"enums": {
+			"Foo": {
+				"isExported": true,
+				"kind": "enum",
+				"name": "Foo",
+				"location": {
+					"line": 99,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"members": [
+					{
+						"name": "Red",
+						"value": "",
+						"summary": "",
+						"docs": {}
+					},
+					{
+						"name": "Green",
+						"value": "",
+						"summary": "",
+						"docs": {}
+					},
+					{
+						"name": "Blue",
+						"value": "",
+						"summary": "",
+						"docs": {}
+					}
+				]
+			},
+			"Bar": {
+				"isExported": true,
+				"kind": "enum",
+				"name": "Bar",
+				"location": {
+					"line": 102,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"members": [
+					{
+						"name": "Red",
+						"value": "1",
+						"summary": "Red comment",
+						"docs": {}
+					},
+					{
+						"name": "Green",
+						"value": "",
+						"summary": "Green comment",
+						"docs": {}
+					},
+					{
+						"name": "Blue",
+						"value": "\"asd\"",
+						"summary": "Blue comment",
+						"docs": {}
+					}
+				]
+			}
+		}
+	}
+]
