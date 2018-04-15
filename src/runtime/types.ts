@@ -45,6 +45,7 @@ export interface TsDoxInterface extends TsDoxEntity {
   kind: "interface"
   location: TsDoxLocation
   properties?: TsDoxDict<TsDoxProperty>
+  methods: TsDoxDict<TsDoxMethod>
 }
 export interface TsDoxFunction extends TsDoxEntity{
   kind: "function"

@@ -212,9 +212,12 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
 }
 
 
-export function makeMethod(node: ts.MethodDeclaration, root: ts.SourceFile): TsDoxMethod {
+export function makeMethod(node: ts.MethodDeclaration | ts.MethodSignature, root: ts.SourceFile): TsDoxMethod {
   const start = node.getStart(root, false)
-  const end = node.body ? node.body.getStart(root, false) : node.getEnd()
+  let end = node.getEnd()
+  if (ts.isMethodDeclaration(node) && node.body) {
+    end = node.body.getStart(root, false)
+  }
   return {
     ...entityAccess(ts.getCombinedModifierFlags(node)),
     location: location(node, root),
@@ -281,7 +284,8 @@ export function makeInterface(node: ts.InterfaceDeclaration, root: ts.SourceFile
     location: location(node, root),
     summary: summary(node, root),
     docs: jsdoc(node),
-    properties: {}
+    properties: {},
+    methods: {}
   }
   return result
 }
@@ -323,7 +327,7 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
     return
   }
 
-  if (ts.isMethodDeclaration(node)) {
+  if (ts.isMethodDeclaration(node) || ts.isMethodSignature(node)) {
     const data = makeMethod(node, root)
     out.methods = out.methods || {}
     out.methods[data.name] = data
