@@ -1,3 +1,5 @@
+export const Foo = "Bar"
+
 export interface TsDoxDict<T> {
   [id: string]: T
  }
@@ -33,6 +35,13 @@ export interface TsDoxModule extends TsDoxEntity {
   kind: "module"
   location: TsDoxLocation
   decorators: TsDoxDecorator[]
+}
+export interface TsDoxVariable extends TsDoxEntity {
+  kind: "variable"
+  type: string
+  signature: string
+  isConst: boolean
+  isLet: boolean
 }
 export interface TsDoxClass extends TsDoxEntity {
   kind: "class"

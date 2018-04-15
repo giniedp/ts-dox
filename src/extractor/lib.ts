@@ -1,7 +1,7 @@
 import * as ts from "typescript"
 import * as path from "path"
 
-import { TsDoxDecorator, TsDoxEnum, TsDoxAccessModifiers, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor } from "../runtime"
+import { TsDoxDecorator, TsDoxEnum, TsDoxAccessModifiers, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor, TsDoxVariable } from "../runtime"
 
 export function location(node: ts.Node, src: ts.SourceFile): TsDoxLocation {
   const { line, character } = src.getLineAndCharacterOfPosition(node.getStart())
@@ -177,6 +177,21 @@ export function parameter(node: ts.ParameterDeclaration, root: ts.SourceFile): T
   }
 }
 
+export function makeVariable(node: ts.VariableDeclaration, root: ts.SourceFile): TsDoxVariable {
+  const flags = ts.getCombinedNodeFlags(node)
+  return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
+    kind: "variable",
+    name: tokenName(node.name),
+    type: typeName(node.type),
+    signature: root.getText().substring(node.getStart(root, false), node.end),
+    summary: summary(node, root),
+    docs: jsdoc(node),
+    isConst: !!(flags & ts.NodeFlags.Const),
+    isLet: !!(flags & ts.NodeFlags.Let),
+  }
+}
+
 export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile): TsDoxFunction {
   const start = node.getStart(root, false)
   const end = node.body ? node.body.getStart(root, false) : node.getEnd()
@@ -210,7 +225,6 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
     decorators: (node.decorators || [] as any).map((it) => makeDecorator(it, root))
   }
 }
-
 
 export function makeMethod(node: ts.MethodDeclaration | ts.MethodSignature, root: ts.SourceFile): TsDoxMethod {
   const start = node.getStart(root, false)
@@ -320,6 +334,13 @@ export function walk(root: ts.SourceFile, node: ts.Node, out: any) {
 
 export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
 
+  if (ts.isModuleDeclaration(node)) {
+    const data = makeModule(node, root)
+    out.modules = out.modules || {}
+    out.modules[data.name] = walk(root, node, data)
+    return
+  }
+
   if (ts.isFunctionDeclaration(node)) {
     const data = makeFunction(node, root)
     out.functions = out.functions || {}
@@ -327,26 +348,10 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
     return
   }
 
-  if (ts.isMethodDeclaration(node) || ts.isMethodSignature(node)) {
-    const data = makeMethod(node, root)
-    out.methods = out.methods || {}
-    out.methods[data.name] = data
-    return
-  }
-
-  if (ts.isPropertyDeclaration(node) || ts.isPropertySignature(node) || ts.isGetAccessorDeclaration(node) || ts.isSetAccessorDeclaration(node)) {
-    const data = makeProperty(node, root)
-    out.properties = out.properties || {}
-    if (!out.properties[data.name] || ts.isGetAccessorDeclaration(node)) {
-      out.properties[data.name] = data
-    }
-    return
-  }
-
-  if (ts.isModuleDeclaration(node)) {
-    const data = makeModule(node, root)
-    out.modules = out.modules || {}
-    out.modules[data.name] = walk(root, node, data)
+  if (ts.isVariableDeclaration(node)) {
+    const data = makeVariable(node, root)
+    out.variables = out.variables || {}
+    out.variables[data.name] = data
     return
   }
 
@@ -364,15 +369,31 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
     return
   }
 
+  if (ts.isEnumDeclaration(node)) {
+    const data = makeEnum(node, root)
+    out.enums = out.enums || {}
+    out.enums[data.name] = data
+    return
+  }
+
+  if (ts.isPropertyDeclaration(node) || ts.isPropertySignature(node) || ts.isGetAccessorDeclaration(node) || ts.isSetAccessorDeclaration(node)) {
+    const data = makeProperty(node, root)
+    out.properties = out.properties || {}
+    if (!out.properties[data.name] || ts.isGetAccessorDeclaration(node)) {
+      out.properties[data.name] = data
+    }
+    return
+  }
+
   if (ts.isConstructorDeclaration(node)) {
     out.constructor = makeConstructor(node, root)
     return
   }
 
-  if (ts.isEnumDeclaration(node)) {
-    const data = makeEnum(node, root)
-    out.enums = out.enums || {}
-    out.enums[data.name] = data
+  if (ts.isMethodDeclaration(node) || ts.isMethodSignature(node)) {
+    const data = makeMethod(node, root)
+    out.methods = out.methods || {}
+    out.methods[data.name] = data
     return
   }
 
