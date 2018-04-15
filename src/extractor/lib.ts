@@ -178,11 +178,14 @@ export function parameter(node: ts.ParameterDeclaration, root: ts.SourceFile): T
 }
 
 export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile): TsDoxFunction {
+  const start = node.getStart(root, false)
+  const end = node.body ? node.body.getStart(root, false) : node.getEnd()
   return {
     ...entityAccess(ts.getCombinedModifierFlags(node)),
     location: location(node, root),
     kind: "function",
     name: tokenName(node.name),
+    signature: root.getText().substring(start, end),
     returnType: typeName(node.type),
     summary: summary(node, root),
     docs: jsdoc(node),
@@ -192,11 +195,14 @@ export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile):
 }
 
 export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.SourceFile): TsDoxConstructor {
+  const start = node.getStart(root, false)
+  const end = node.body ? node.body.getStart(root, false) : node.getEnd()
   return {
     ...entityAccess(ts.getCombinedModifierFlags(node)),
     location: location(node, root),
     kind: "constructor",
     name: "__constructor",
+    signature: root.getText().substring(start, end),
     returnType: typeName(node.type),
     summary: summary(node, root),
     docs: jsdoc(node),
@@ -207,11 +213,14 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
 
 
 export function makeMethod(node: ts.MethodDeclaration, root: ts.SourceFile): TsDoxMethod {
+  const start = node.getStart(root, false)
+  const end = node.body ? node.body.getStart(root, false) : node.getEnd()
   return {
     ...entityAccess(ts.getCombinedModifierFlags(node)),
     location: location(node, root),
     kind: "method",
     name: tokenName(node.name),
+    signature: root.getText().substring(start, end),
     returnType: typeName(node.type),
     summary: summary(node, root),
     docs: jsdoc(node),
@@ -364,7 +373,11 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
   }
 
   if (ts.isSourceFile(node)) {
-    out.file = location(node, root).file
+    out.name = location(node, root).file
+    out.classes = out.classes || {}
+    out.interfaces = out.interfaces || {}
+    out.functions = out.functions || {}
+    out.enums = out.enums || {}
   }
 
   return walk(root, node, out)

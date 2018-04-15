@@ -3,9 +3,11 @@ export interface TsDoxDict<T> {
  }
 
 export interface TsDoxFile {
-  classes: Map<string, TsDoxClass>
-  interfaces: Map<string, TsDoxInterface>
-  functions: Map<string, TsDoxFunction>
+  name: string,
+  classes: TsDoxDict<TsDoxClass>
+  interfaces: TsDoxDict<TsDoxInterface>
+  functions: TsDoxDict<TsDoxFunction>
+  enums: TsDoxDict<TsDoxEnum>
 }
 export interface TsDoxLocation {
   line: number
@@ -46,6 +48,7 @@ export interface TsDoxInterface extends TsDoxEntity {
 }
 export interface TsDoxFunction extends TsDoxEntity{
   kind: "function"
+  signature: string
   location: TsDoxLocation
   returnType: string
   parameters: TsDoxParameter[]
@@ -53,6 +56,7 @@ export interface TsDoxFunction extends TsDoxEntity{
 }
 export interface TsDoxMethod extends TsDoxEntity {
   kind: "method"
+  signature: string,
   location: TsDoxLocation
   returnType: string
   parameters: TsDoxParameter[]
@@ -60,6 +64,7 @@ export interface TsDoxMethod extends TsDoxEntity {
 }
 export interface TsDoxConstructor extends TsDoxEntity {
   kind: "constructor"
+  signature: string
   location: TsDoxLocation
   returnType: string
   parameters: TsDoxParameter[]
