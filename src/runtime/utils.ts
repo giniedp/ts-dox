@@ -1,25 +1,34 @@
-import { TsDoxClass, TsDoxFile, TsDoxInterface, TsDoxFunction, TsDoxEnum } from "./types"
+import { TsDoxClass, TsDoxFile, TsDoxInterface, TsDoxFunction, TsDoxEnum, Kind, TsDoxVariable, TsDoxType, TsDoxModule } from "./types"
 
 export interface FindOptions {
-  kind: "interface" | "class" | "function" | "enum"
   pkg?: string | RegExp
   name?: string | RegExp
 }
 
-function kindToKey(kind: "interface" | "class" | "function" | "enum"): keyof TsDoxFile {
+function kindToKey(kind: Kind): keyof TsDoxFile {
   switch (kind) {
+    case "module": return "modules"
     case "interface": return "interfaces"
     case "class": return "classes"
     case "function": return "functions"
     case "enum": return "enums"
+    case "variable": return "variables"
+    case "type": return "types"
   }
   return null
 }
 
-export function filter(input: TsDoxFile | TsDoxFile[], options: FindOptions) {
+export function select(input: TsDoxFile | TsDoxFile[], kind: "module", options: FindOptions): TsDoxModule[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "class", options: FindOptions): TsDoxClass[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "interface", options: FindOptions): TsDoxInterface[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "function", options: FindOptions): TsDoxFunction[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "enum", options: FindOptions): TsDoxEnum[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "type", options: FindOptions): TsDoxType[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "variable", options: FindOptions): TsDoxVariable[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: Kind, options: FindOptions) {
   const list = Array.isArray(input) ? input : [input]
   const pkgFilter = typeof options.pkg === "string" ? new RegExp(options.pkg) : options.pkg
-  const key = kindToKey(options.kind)
+  const key = kindToKey(kind)
   const nameFilter = typeof options.name === "string" ? new RegExp(options.name) : options.name
 
   return list
@@ -37,36 +46,4 @@ export function filter(input: TsDoxFile | TsDoxFile[], options: FindOptions) {
     .filter((it) => {
       return !nameFilter || nameFilter.test(it.name)
     })
-}
-
-export function findClass(input: TsDoxFile | TsDoxFile[], pkg?: string | RegExp, name?: string | RegExp): TsDoxClass[] {
-  return filter(input, {
-    kind: "class",
-    pkg: pkg,
-    name: name,
-  })
-}
-
-export function findInterface(input: TsDoxFile | TsDoxFile[], pkg?: string | RegExp, name?: string | RegExp): TsDoxInterface[] {
-  return filter(input, {
-    kind: "interface",
-    pkg: pkg,
-    name: name,
-  })
-}
-
-export function findFunction(input: TsDoxFile | TsDoxFile[], pkg?: string | RegExp, name?: string | RegExp): TsDoxFunction[] {
-  return filter(input, {
-    kind: "function",
-    pkg: pkg,
-    name: name,
-  })
-}
-
-export function findEnum(input: TsDoxFile | TsDoxFile[], pkg?: string | RegExp, name?: string | RegExp): TsDoxEnum[] {
-  return filter(input, {
-    kind: "enum",
-    pkg: pkg,
-    name: name,
-  })
 }
