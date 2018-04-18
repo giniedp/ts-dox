@@ -4,13 +4,17 @@ export interface TsDoxDict<T> {
   [id: string]: T
  }
 
+export type Kind = "file" | "type" | "interface" | "enum" | "class" | "module" | "function" | "method" | "constructor" | "property" | "variable"
+
 export interface TsDoxFile {
   name: string,
+  modules: TsDoxDict<TsDoxModule>
   classes: TsDoxDict<TsDoxClass>
   interfaces: TsDoxDict<TsDoxInterface>
   functions: TsDoxDict<TsDoxFunction>
   enums: TsDoxDict<TsDoxEnum>
   variables: TsDoxDict<TsDoxVariable>
+  types: TsDoxDict<TsDoxType>
 }
 export interface TsDoxLocation {
   line: number
@@ -27,7 +31,7 @@ export interface TsDoxAccessModifiers {
   isExported?: boolean
 }
 export interface TsDoxEntity extends TsDoxAccessModifiers {
-  kind: string
+  kind: Kind
   name: string
   summary: string
   docs: TsDoxDict<any>
