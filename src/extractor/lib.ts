@@ -1,7 +1,7 @@
 import * as ts from "typescript"
 import * as path from "path"
 
-import { TsDoxDecorator, TsDoxEnum, TsDoxAccessModifiers, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor, TsDoxVariable } from "../runtime"
+import { TsDoxDecorator, TsDoxEnum, TsDoxAccessModifiers, TsDoxLocation, TsDoxFunction, TsDoxMethod, TsDoxProperty, TsDoxClass, TsDoxInterface, TsDoxParameter, TsDoxConstructor, TsDoxVariable, TsDoxType } from "../runtime"
 
 export function location(node: ts.Node, src: ts.SourceFile): TsDoxLocation {
   const { line, character } = src.getLineAndCharacterOfPosition(node.getStart())
@@ -192,6 +192,19 @@ export function makeVariable(node: ts.VariableDeclaration, root: ts.SourceFile):
   }
 }
 
+export function makeType(node: ts.TypeAliasDeclaration, root: ts.SourceFile): TsDoxType {
+  const flags = ts.getCombinedNodeFlags(node)
+  return {
+    ...entityAccess(ts.getCombinedModifierFlags(node)),
+    location: location(node, root),
+    kind: "type",
+    name: tokenName(node.name),
+    signature: root.getText().substring(node.getStart(root, false), node.end),
+    summary: summary(node, root),
+    docs: jsdoc(node),
+  }
+}
+
 export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile): TsDoxFunction {
   const start = node.getStart(root, false)
   const end = node.body ? node.body.getStart(root, false) : node.getEnd()
@@ -343,44 +356,64 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
 
   if (ts.isFunctionDeclaration(node)) {
     const data = makeFunction(node, root)
-    out.functions = out.functions || {}
-    out.functions[data.name] = data
+    if (data.isExported) {
+      out.functions = out.functions || {}
+      out.functions[data.name] = data
+    }
     return
   }
 
   if (ts.isVariableDeclaration(node)) {
     const data = makeVariable(node, root)
-    out.variables = out.variables || {}
-    out.variables[data.name] = data
+    if (data.isExported) {
+      out.variables = out.variables || {}
+      out.variables[data.name] = data
+    }
     return
+  }
+
+  if (ts.isTypeAliasDeclaration(node)) {
+    const data = makeType(node, root)
+    if (data.isExported) {
+      out.types = out.types || {}
+      out.types[data.name] = data
+    }
   }
 
   if (ts.isClassDeclaration(node)) {
     const data = makeClass(node, root)
-    out.classes = out.classes || {}
-    out.classes[data.name] = walk(root, node, data)
+    if (data.isExported) {
+      out.classes = out.classes || {}
+      out.classes[data.name] = walk(root, node, data)
+    }
     return
   }
 
   if (ts.isInterfaceDeclaration(node)) {
     const data = makeInterface(node, root)
-    out.interfaces = out.interfaces || {}
-    out.interfaces[data.name] = walk(root, node, data)
+    if (data.isExported) {
+      out.interfaces = out.interfaces || {}
+      out.interfaces[data.name] = walk(root, node, data)
+    }
     return
   }
 
   if (ts.isEnumDeclaration(node)) {
     const data = makeEnum(node, root)
-    out.enums = out.enums || {}
-    out.enums[data.name] = data
+    if (data.isExported) {
+      out.enums = out.enums || {}
+      out.enums[data.name] = data
+    }
     return
   }
 
   if (ts.isPropertyDeclaration(node) || ts.isPropertySignature(node) || ts.isGetAccessorDeclaration(node) || ts.isSetAccessorDeclaration(node)) {
     const data = makeProperty(node, root)
-    out.properties = out.properties || {}
-    if (!out.properties[data.name] || ts.isGetAccessorDeclaration(node)) {
-      out.properties[data.name] = data
+    if (!data.isPrivate) {
+      out.properties = out.properties || {}
+      if (!out.properties[data.name] || ts.isGetAccessorDeclaration(node)) {
+        out.properties[data.name] = data
+      }
     }
     return
   }
@@ -392,8 +425,10 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
 
   if (ts.isMethodDeclaration(node) || ts.isMethodSignature(node)) {
     const data = makeMethod(node, root)
-    out.methods = out.methods || {}
-    out.methods[data.name] = data
+    if (!data.isPrivate) {
+      out.methods = out.methods || {}
+      out.methods[data.name] = data
+    }
     return
   }
 
@@ -403,6 +438,8 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
     out.interfaces = out.interfaces || {}
     out.functions = out.functions || {}
     out.enums = out.enums || {}
+    out.variables = out.variables || {}
+    out.types = out.types || {}
   }
 
   return walk(root, node, out)
