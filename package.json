@@ -1,6 +1,6 @@
 {
   "name": "ts-dox",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Transforms typescript AST to JSON",
   "main": "lib/index.js",
   "scripts": {
