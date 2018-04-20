@@ -32,7 +32,7 @@ export function entityAccess(flags: ts.ModifierFlags): TsDoxAccessModifiers {
 }
 
 export function summary(node: ts.Node, root: ts.SourceFile): string {
-  const text = root.getText()
+  const text = root.getFullText()
   const comments = ts.getLeadingCommentRanges(text, node.pos) || []
   const comment = comments[comments.length - 1]
   if (!comment) return ""
@@ -184,7 +184,7 @@ export function makeVariable(node: ts.VariableDeclaration, root: ts.SourceFile):
     kind: "variable",
     name: tokenName(node.name),
     type: typeName(node.type),
-    signature: root.getText().substring(node.getStart(root, false), node.end),
+    signature: root.getFullText().substring(node.getStart(root, false), node.end),
     summary: summary(node, root),
     docs: jsdoc(node),
     isConst: !!(flags & ts.NodeFlags.Const),
@@ -199,7 +199,7 @@ export function makeType(node: ts.TypeAliasDeclaration, root: ts.SourceFile): Ts
     location: location(node, root),
     kind: "type",
     name: tokenName(node.name),
-    signature: root.getText().substring(node.getStart(root, false), node.end),
+    signature: root.getFullText().substring(node.getStart(root, false), node.end),
     summary: summary(node, root),
     docs: jsdoc(node),
   }
@@ -213,7 +213,7 @@ export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile):
     location: location(node, root),
     kind: "function",
     name: tokenName(node.name),
-    signature: root.getText().substring(start, end),
+    signature: root.getFullText().substring(start, end),
     returnType: typeName(node.type),
     summary: summary(node, root),
     docs: jsdoc(node),
@@ -230,7 +230,7 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
     location: location(node, root),
     kind: "constructor",
     name: "__constructor",
-    signature: root.getText().substring(start, end),
+    signature: root.getFullText().substring(start, end),
     returnType: typeName(node.type),
     summary: summary(node, root),
     docs: jsdoc(node),
@@ -240,17 +240,17 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
 }
 
 export function makeMethod(node: ts.MethodDeclaration | ts.MethodSignature, root: ts.SourceFile): TsDoxMethod {
-  const start = node.getStart(root, false)
+  const start = node.getStart(root, true)
   let end = node.getEnd()
   if (ts.isMethodDeclaration(node) && node.body) {
-    end = node.body.getStart(root, false)
+    end = node.body.getStart(root, true)
   }
   return {
     ...entityAccess(ts.getCombinedModifierFlags(node)),
     location: location(node, root),
     kind: "method",
     name: tokenName(node.name),
-    signature: root.getText().substring(start, end),
+    signature: root.getFullText().substring(start, end),
     returnType: typeName(node.type),
     summary: summary(node, root),
     docs: jsdoc(node),
@@ -434,6 +434,7 @@ export function visit(root: ts.SourceFile, node: ts.Node, out: any) {
 
   if (ts.isSourceFile(node)) {
     out.name = location(node, root).file
+    out.modules = out.modules || {}
     out.classes = out.classes || {}
     out.interfaces = out.interfaces || {}
     out.functions = out.functions || {}
