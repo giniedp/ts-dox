@@ -1,6 +1,7 @@
 [
 	{
 		"name": "src/extractor/index.ts",
+		"modules": {},
 		"classes": {},
 		"interfaces": {},
 		"functions": {
@@ -74,6 +75,7 @@
 	},
 	{
 		"name": "src/extractor/lib.ts",
+		"modules": {},
 		"classes": {},
 		"interfaces": {},
 		"functions": {
@@ -753,6 +755,7 @@
 	},
 	{
 		"name": "src/index.ts",
+		"modules": {},
 		"classes": {},
 		"interfaces": {},
 		"functions": {},
@@ -762,6 +765,7 @@
 	},
 	{
 		"name": "src/runtime/index.ts",
+		"modules": {},
 		"classes": {},
 		"interfaces": {},
 		"functions": {},
@@ -771,6 +775,7 @@
 	},
 	{
 		"name": "src/runtime/types.ts",
+		"modules": {},
 		"classes": {},
 		"interfaces": {
 			"TsDoxDict": {
@@ -1978,6 +1983,7 @@
 	},
 	{
 		"name": "src/runtime/utils.ts",
+		"modules": {},
 		"classes": {},
 		"interfaces": {
 			"FindOptions": {
