@@ -240,10 +240,10 @@ export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.Source
 }
 
 export function makeMethod(node: ts.MethodDeclaration | ts.MethodSignature, root: ts.SourceFile): TsDoxMethod {
-  const start = node.getStart(root, true)
+  const start = node.getStart(root, false)
   let end = node.getEnd()
   if (ts.isMethodDeclaration(node) && node.body) {
-    end = node.body.getStart(root, true)
+    end = node.body.getStart(root)
   }
   return {
     ...entityAccess(ts.getCombinedModifierFlags(node)),
