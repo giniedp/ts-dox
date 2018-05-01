@@ -14,13 +14,13 @@
 				},
 				"kind": "function",
 				"name": "extract",
-				"signature": "export function extract(file: string, text?: string) ",
+				"signature": "export function extract(file: string, text?: string, program?: ts.Program) ",
 				"returnType": "",
 				"summary": "Parses the given file and extracts typescript AST as JSON",
 				"docs": {
 					"param": [
-						"- Path to the file",
-						"- The file content"
+						"Path to the file",
+						"The file content"
 					]
 				},
 				"parameters": [
@@ -28,17 +28,21 @@
 						"kind": "parameter",
 						"name": "file",
 						"type": "string",
-						"summary": "- Path to the file",
-						"isOptional": false,
-						"isSpread": false
+						"summary": "Path to the file"
 					},
 					{
 						"kind": "parameter",
 						"name": "text",
 						"type": "string",
-						"summary": "- The file content",
-						"isOptional": true,
-						"isSpread": false
+						"summary": "The file content",
+						"isOptional": true
+					},
+					{
+						"kind": "parameter",
+						"name": "program",
+						"type": "ts.Program",
+						"summary": "",
+						"isOptional": true
 					}
 				],
 				"decorators": []
@@ -46,13 +50,13 @@
 			"transform": {
 				"isExported": true,
 				"location": {
-					"line": 38,
+					"line": 43,
 					"character": 0,
 					"file": "src/extractor/index.ts"
 				},
 				"kind": "function",
 				"name": "transform",
-				"signature": "export function transform(options: {\n  concat?: string,\n  transform?: (input: any) => any,\n  spacer?: number | string\n} = {}) ",
+				"signature": "export function transform(options: {\n  concat?: string,\n  map?: (input: any) => any,\n  spacer?: number | string\n} = {}) ",
 				"returnType": "",
 				"summary": "Creates a Transform object for eaxmple to be used in a gulp pipeline",
 				"docs": {},
@@ -60,10 +64,8 @@
 					{
 						"kind": "parameter",
 						"name": "options",
-						"type": "",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"type": "{\n  concat?: string,\n  map?: (input: any) => any,\n  spacer?: number | string\n}",
+						"summary": ""
 					}
 				],
 				"decorators": []
@@ -77,632 +79,84 @@
 		"name": "src/extractor/lib.ts",
 		"modules": {},
 		"classes": {},
-		"interfaces": {},
-		"functions": {
-			"location": {
+		"interfaces": {
+			"Ctx": {
 				"isExported": true,
-				"location": {
-					"line": 5,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "location",
-				"signature": "export function location(node: ts.Node, src: ts.SourceFile): TsDoxLocation ",
-				"returnType": "TsDoxLocation",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.Node",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "src",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"remarks": {
-				"isExported": true,
-				"location": {
-					"line": 14,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "remarks",
-				"signature": "export function remarks(node: ts.Node): string ",
-				"returnType": "string",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.Node",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"entityAccess": {
-				"isExported": true,
+				"kind": "interface",
+				"extends": [],
+				"implements": [],
+				"name": "Ctx",
 				"location": {
 					"line": 19,
 					"character": 0,
 					"file": "src/extractor/lib.ts"
 				},
-				"kind": "function",
-				"name": "entityAccess",
-				"signature": "export function entityAccess(flags: ts.ModifierFlags): TsDoxAccessModifiers ",
-				"returnType": "TsDoxAccessModifiers",
 				"summary": "",
 				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "flags",
-						"type": "ts.ModifierFlags",
+				"properties": {
+					"src": {
+						"kind": "property",
+						"name": "src",
+						"returnType": "ts.SourceFile",
 						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"summary": {
-				"isExported": true,
-				"location": {
-					"line": 33,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "summary",
-				"signature": "export function summary(node: ts.Node, root: ts.SourceFile): string ",
-				"returnType": "string",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.Node",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"docs": {},
+						"decorators": []
 					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"jsdoc": {
-				"isExported": true,
-				"location": {
-					"line": 51,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "jsdoc",
-				"signature": "export function jsdoc(node: ts.Node) ",
-				"returnType": "",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
+					"node": {
+						"kind": "property",
 						"name": "node",
-						"type": "ts.Node",
+						"returnType": "ts.Node",
 						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"tokenName": {
-				"isExported": true,
-				"location": {
-					"line": 69,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "tokenName",
-				"signature": "export function tokenName(node: ts.PropertyName | ts.Identifier | ts.StringLiteral | ts.NumericLiteral | ts.QualifiedName | ts.BindingName) ",
-				"returnType": "",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"typeName": {
-				"isExported": true,
-				"location": {
-					"line": 88,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "typeName",
-				"signature": "export function typeName(node: ts.TypeNode): string ",
-				"returnType": "string",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.TypeNode",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeDecorator": {
-				"isExported": true,
-				"location": {
-					"line": 128,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeDecorator",
-				"signature": "export function makeDecorator(node: ts.Decorator, root: ts.SourceFile): TsDoxDecorator ",
-				"returnType": "TsDoxDecorator",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.Decorator",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"docs": {},
+						"decorators": []
 					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
+					"output": {
+						"kind": "property",
+						"name": "output",
+						"returnType": "any",
 						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"parameter": {
-				"isExported": true,
-				"location": {
-					"line": 167,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "parameter",
-				"signature": "export function parameter(node: ts.ParameterDeclaration, root: ts.SourceFile): TsDoxParameter ",
-				"returnType": "TsDoxParameter",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.ParameterDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"docs": {},
+						"decorators": []
 					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
+					"program": {
+						"kind": "property",
+						"name": "program",
+						"returnType": "ts.Program",
 						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"docs": {},
+						"decorators": [],
+						"isOptional": true
 					}
-				],
-				"decorators": []
-			},
-			"makeVariable": {
-				"isExported": true,
-				"location": {
-					"line": 179,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
 				},
-				"kind": "function",
-				"name": "makeVariable",
-				"signature": "export function makeVariable(node: ts.VariableDeclaration, root: ts.SourceFile): TsDoxVariable ",
-				"returnType": "TsDoxVariable",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.VariableDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeType": {
-				"isExported": true,
-				"location": {
-					"line": 194,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeType",
-				"signature": "export function makeType(node: ts.TypeAliasDeclaration, root: ts.SourceFile): TsDoxType ",
-				"returnType": "TsDoxType",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.TypeAliasDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeFunction": {
-				"isExported": true,
-				"location": {
-					"line": 207,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeFunction",
-				"signature": "export function makeFunction(node: ts.FunctionDeclaration, root: ts.SourceFile): TsDoxFunction ",
-				"returnType": "TsDoxFunction",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.FunctionDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeConstructor": {
-				"isExported": true,
-				"location": {
-					"line": 224,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeConstructor",
-				"signature": "export function makeConstructor(node: ts.ConstructorDeclaration, root: ts.SourceFile): TsDoxConstructor ",
-				"returnType": "TsDoxConstructor",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.ConstructorDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeMethod": {
-				"isExported": true,
-				"location": {
-					"line": 241,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeMethod",
-				"signature": "export function makeMethod(node: ts.MethodDeclaration | ts.MethodSignature, root: ts.SourceFile): TsDoxMethod ",
-				"returnType": "TsDoxMethod",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeProperty": {
-				"isExported": true,
-				"location": {
-					"line": 261,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeProperty",
-				"signature": "export function makeProperty(\n  node: ts.PropertyDeclaration | ts.PropertySignature | ts.GetAccessorDeclaration | ts.SetAccessorDeclaration,\n  root: ts.SourceFile,\n): TsDoxProperty ",
-				"returnType": "TsDoxProperty",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeModule": {
-				"isExported": true,
-				"location": {
-					"line": 279,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeModule",
-				"signature": "export function makeModule(node: ts.ModuleDeclaration, root: ts.SourceFile) ",
-				"returnType": "",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.ModuleDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeClass": {
-				"isExported": true,
-				"location": {
-					"line": 291,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeClass",
-				"signature": "export function makeClass(node: ts.ClassDeclaration, root: ts.SourceFile): TsDoxClass ",
-				"returnType": "TsDoxClass",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.ClassDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeInterface": {
-				"isExported": true,
-				"location": {
-					"line": 305,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeInterface",
-				"signature": "export function makeInterface(node: ts.InterfaceDeclaration, root: ts.SourceFile): TsDoxInterface ",
-				"returnType": "TsDoxInterface",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.InterfaceDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
-			"makeEnum": {
-				"isExported": true,
-				"location": {
-					"line": 319,
-					"character": 0,
-					"file": "src/extractor/lib.ts"
-				},
-				"kind": "function",
-				"name": "makeEnum",
-				"signature": "export function makeEnum(node: ts.EnumDeclaration, root: ts.SourceFile): TsDoxEnum ",
-				"returnType": "TsDoxEnum",
-				"summary": "",
-				"docs": {},
-				"parameters": [
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.EnumDeclaration",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					}
-				],
-				"decorators": []
-			},
+				"methods": {}
+			}
+		},
+		"functions": {
 			"walk": {
 				"isExported": true,
 				"location": {
-					"line": 339,
+					"line": 47,
 					"character": 0,
 					"file": "src/extractor/lib.ts"
 				},
 				"kind": "function",
 				"name": "walk",
-				"signature": "export function walk(root: ts.SourceFile, node: ts.Node, out: any) ",
+				"signature": "export function walk(ctx: Ctx) ",
 				"returnType": "",
-				"summary": "",
-				"docs": {},
+				"summary": "Walks all children of given node",
+				"docs": {
+					"param": [
+						"The source file",
+						"The node to walk",
+						"The object to extract data to"
+					]
+				},
 				"parameters": [
 					{
 						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.Node",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "out",
-						"type": "any",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"name": "ctx",
+						"type": "Ctx",
+						"summary": ""
 					}
 				],
 				"decorators": []
@@ -710,40 +164,28 @@
 			"visit": {
 				"isExported": true,
 				"location": {
-					"line": 347,
+					"line": 62,
 					"character": 0,
 					"file": "src/extractor/lib.ts"
 				},
 				"kind": "function",
 				"name": "visit",
-				"signature": "export function visit(root: ts.SourceFile, node: ts.Node, out: any) ",
+				"signature": "export function visit(ctx: Ctx) ",
 				"returnType": "",
-				"summary": "",
-				"docs": {},
+				"summary": "Visits a source node and extracts the AST",
+				"docs": {
+					"param": [
+						"The source file",
+						"The node to visit",
+						"The object to extract to"
+					]
+				},
 				"parameters": [
 					{
 						"kind": "parameter",
-						"name": "root",
-						"type": "ts.SourceFile",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "node",
-						"type": "ts.Node",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
-					},
-					{
-						"kind": "parameter",
-						"name": "out",
-						"type": "any",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"name": "ctx",
+						"type": "Ctx",
+						"summary": ""
 					}
 				],
 				"decorators": []
@@ -757,6 +199,564 @@
 		"name": "src/index.ts",
 		"modules": {},
 		"classes": {},
+		"interfaces": {},
+		"functions": {},
+		"enums": {},
+		"variables": {},
+		"types": {}
+	},
+	{
+		"name": "src/renderer/index.ts",
+		"modules": {},
+		"classes": {},
+		"interfaces": {},
+		"functions": {},
+		"enums": {},
+		"variables": {},
+		"types": {}
+	},
+	{
+		"name": "src/renderer/markdown.ts",
+		"modules": {},
+		"classes": {},
+		"interfaces": {},
+		"functions": {
+			"transformMarkdown": {
+				"isExported": true,
+				"location": {
+					"line": 19,
+					"character": 0,
+					"file": "src/renderer/markdown.ts"
+				},
+				"kind": "function",
+				"name": "transformMarkdown",
+				"signature": "export function transformMarkdown() ",
+				"returnType": "",
+				"summary": "",
+				"docs": {},
+				"parameters": [],
+				"decorators": []
+			}
+		},
+		"enums": {},
+		"variables": {},
+		"types": {}
+	},
+	{
+		"name": "src/renderer/writer.ts",
+		"modules": {},
+		"classes": {
+			"MdWriter": {
+				"isExported": true,
+				"kind": "class",
+				"extends": [],
+				"implements": [],
+				"name": "MdWriter",
+				"location": {
+					"line": 5,
+					"character": 0,
+					"file": "src/renderer/writer.ts"
+				},
+				"summary": "",
+				"docs": {},
+				"decorators": [],
+				"methods": {
+					"toString": {
+						"isPublic": true,
+						"location": {
+							"line": 12,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "toString",
+						"signature": "public toString() ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [],
+						"decorators": []
+					},
+					"writeString": {
+						"isPublic": true,
+						"location": {
+							"line": 16,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeString",
+						"signature": "public writeString(v: string, escape=true) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "escape",
+								"type": "",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeLnHeader": {
+						"isPublic": true,
+						"location": {
+							"line": 23,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeLnHeader",
+						"signature": "public writeLnHeader(v: string, lvl: number = 1) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "lvl",
+								"type": "number",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeLn": {
+						"isPublic": true,
+						"location": {
+							"line": 29,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeLn",
+						"signature": "public writeLn(v: string = \"\") ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeLnListItem": {
+						"isPublic": true,
+						"location": {
+							"line": 34,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeLnListItem",
+						"signature": "public writeLnListItem(v: string, lvl: number = 1) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "lvl",
+								"type": "number",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"beginListItem": {
+						"isPublic": true,
+						"location": {
+							"line": 39,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "beginListItem",
+						"signature": "public beginListItem(lvl: number = 1) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "lvl",
+								"type": "number",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeLnListItemOrdered": {
+						"isPublic": true,
+						"location": {
+							"line": 44,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeLnListItemOrdered",
+						"signature": "public writeLnListItemOrdered(v: string, lvl: number = 1) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "lvl",
+								"type": "number",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"beginListItemOrdered": {
+						"isPublic": true,
+						"location": {
+							"line": 49,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "beginListItemOrdered",
+						"signature": "public beginListItemOrdered(lvl: number = 1) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "lvl",
+								"type": "number",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeItalic": {
+						"isPublic": true,
+						"location": {
+							"line": 54,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeItalic",
+						"signature": "public writeItalic(v: string) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeBold": {
+						"isPublic": true,
+						"location": {
+							"line": 59,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeBold",
+						"signature": "public writeBold(v: string) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeLink": {
+						"isPublic": true,
+						"location": {
+							"line": 64,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeLink",
+						"signature": "public writeLink(url: string, name: string) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "url",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "name",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeImg": {
+						"isPublic": true,
+						"location": {
+							"line": 69,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeImg",
+						"signature": "public writeImg(url: string, name: string) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "url",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "name",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeCode": {
+						"isPublic": true,
+						"location": {
+							"line": 74,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeCode",
+						"signature": "public writeCode(v: string) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"writeCodeBlock": {
+						"isPublic": true,
+						"location": {
+							"line": 79,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeCodeBlock",
+						"signature": "public writeCodeBlock(v: string, lang: string = \"\") ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "string",
+								"summary": ""
+							},
+							{
+								"kind": "parameter",
+								"name": "lang",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"beginCodeBlock": {
+						"isPublic": true,
+						"location": {
+							"line": 86,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "beginCodeBlock",
+						"signature": "public beginCodeBlock(lang: string = \"\") ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "lang",
+								"type": "string",
+								"summary": ""
+							}
+						],
+						"decorators": []
+					},
+					"endCodeBlock": {
+						"isPublic": true,
+						"location": {
+							"line": 92,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "endCodeBlock",
+						"signature": "public endCodeBlock() ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [],
+						"decorators": []
+					},
+					"writeHr": {
+						"isPublic": true,
+						"location": {
+							"line": 98,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeHr",
+						"signature": "public writeHr() ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [],
+						"decorators": []
+					},
+					"writeTableHeader": {
+						"isPublic": true,
+						"location": {
+							"line": 104,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeTableHeader",
+						"signature": "public writeTableHeader(...v: string[]) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "Array<string>",
+								"summary": "",
+								"isSpread": true
+							}
+						],
+						"decorators": []
+					},
+					"writeTableRow": {
+						"isPublic": true,
+						"location": {
+							"line": 115,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "writeTableRow",
+						"signature": "public writeTableRow(...v: string[]) ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [
+							{
+								"kind": "parameter",
+								"name": "v",
+								"type": "Array<string>",
+								"summary": "",
+								"isSpread": true
+							}
+						],
+						"decorators": []
+					},
+					"beginTableCell": {
+						"isPublic": true,
+						"location": {
+							"line": 125,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "beginTableCell",
+						"signature": "public beginTableCell() ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [],
+						"decorators": []
+					},
+					"endTableRow": {
+						"isPublic": true,
+						"location": {
+							"line": 130,
+							"character": 2,
+							"file": "src/renderer/writer.ts"
+						},
+						"kind": "method",
+						"name": "endTableRow",
+						"signature": "public endTableRow() ",
+						"returnType": "",
+						"summary": "",
+						"docs": {},
+						"parameters": [],
+						"decorators": []
+					}
+				},
+				"properties": {}
+			}
+		},
 		"interfaces": {},
 		"functions": {},
 		"enums": {},
@@ -781,6 +781,8 @@
 			"TsDoxDict": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxDict",
 				"location": {
 					"line": 2,
@@ -795,101 +797,79 @@
 			"TsDoxFile": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxFile",
 				"location": {
-					"line": 8,
+					"line": 14,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a typescript file",
 				"docs": {},
 				"properties": {
 					"name": {
 						"kind": "property",
 						"name": "name",
 						"returnType": "string",
-						"summary": "",
+						"summary": "Path to file",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"modules": {
 						"kind": "property",
 						"name": "modules",
 						"returnType": "TsDoxDict<TsDoxModule>",
-						"summary": "",
+						"summary": "Collection of exported modules",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"classes": {
 						"kind": "property",
 						"name": "classes",
 						"returnType": "TsDoxDict<TsDoxClass>",
-						"summary": "",
+						"summary": "Collection of exported classes",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"interfaces": {
 						"kind": "property",
 						"name": "interfaces",
 						"returnType": "TsDoxDict<TsDoxInterface>",
-						"summary": "",
+						"summary": "Collection of exported interfaces",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"functions": {
 						"kind": "property",
 						"name": "functions",
 						"returnType": "TsDoxDict<TsDoxFunction>",
-						"summary": "",
+						"summary": "Collection of exported functions",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"enums": {
 						"kind": "property",
 						"name": "enums",
 						"returnType": "TsDoxDict<TsDoxEnum>",
-						"summary": "",
+						"summary": "Collectioin of exported enumerations",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"variables": {
 						"kind": "property",
 						"name": "variables",
 						"returnType": "TsDoxDict<TsDoxVariable>",
-						"summary": "",
+						"summary": "Collection of exported variables and constants",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"types": {
 						"kind": "property",
 						"name": "types",
 						"returnType": "TsDoxDict<TsDoxType>",
-						"summary": "",
+						"summary": "Collection of exported types",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -898,46 +878,39 @@
 			"TsDoxLocation": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxLocation",
 				"location": {
-					"line": 18,
+					"line": 52,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a source code reference",
 				"docs": {},
 				"properties": {
+					"file": {
+						"kind": "property",
+						"name": "file",
+						"returnType": "string",
+						"summary": "Path to source file",
+						"docs": {},
+						"decorators": []
+					},
 					"line": {
 						"kind": "property",
 						"name": "line",
 						"returnType": "number",
-						"summary": "",
+						"summary": "Line number in file",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"character": {
 						"kind": "property",
 						"name": "character",
 						"returnType": "number",
-						"summary": "",
+						"summary": "Character index in line",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"file": {
-						"kind": "property",
-						"name": "file",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -946,91 +919,79 @@
 			"TsDoxAccessModifiers": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxAccessModifiers",
 				"location": {
-					"line": 23,
+					"line": 70,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a set of modifiers",
 				"docs": {},
 				"properties": {
 					"isPrivate": {
 						"kind": "property",
 						"name": "isPrivate",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as private",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isPublic": {
 						"kind": "property",
 						"name": "isPublic",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as public",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isProtected": {
 						"kind": "property",
 						"name": "isProtected",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as protected",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isAbstract": {
 						"kind": "property",
 						"name": "isAbstract",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as abstract",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isReadonly": {
 						"kind": "property",
 						"name": "isReadonly",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as readonly",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isStatic": {
 						"kind": "property",
 						"name": "isStatic",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as static",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isExported": {
 						"kind": "property",
 						"name": "isExported",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the symbol is declared as exported",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					}
 				},
 				"methods": {}
@@ -1038,57 +999,108 @@
 			"TsDoxEntity": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxAccessModifiers"
+				],
+				"implements": [],
 				"name": "TsDoxEntity",
 				"location": {
-					"line": 32,
+					"line": 104,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes common properties",
 				"docs": {},
 				"properties": {
 					"kind": {
 						"kind": "property",
 						"name": "kind",
-						"returnType": "Kind",
-						"summary": "",
+						"returnType": "T",
+						"summary": "The type of the sumbol",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"name": {
 						"kind": "property",
 						"name": "name",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The name of the symbol",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"summary": {
 						"kind": "property",
 						"name": "summary",
 						"returnType": "string",
-						"summary": "",
+						"summary": "A brief summary",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"docs": {
 						"kind": "property",
 						"name": "docs",
 						"returnType": "TsDoxDict<any>",
-						"summary": "",
+						"summary": "JSDoc annotations for the symbol",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
+						"decorators": []
+					}
+				},
+				"methods": {}
+			},
+			"TsDoxCallableEntity": {
+				"isExported": true,
+				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<T>"
+				],
+				"implements": [],
+				"name": "TsDoxCallableEntity",
+				"location": {
+					"line": 126,
+					"character": 0,
+					"file": "src/runtime/types.ts"
+				},
+				"summary": "Describes common function properties",
+				"docs": {},
+				"properties": {
+					"signature": {
+						"kind": "property",
+						"name": "signature",
+						"returnType": "string",
+						"summary": "The extracted signature",
+						"docs": {},
+						"decorators": []
+					},
+					"location": {
+						"kind": "property",
+						"name": "location",
+						"returnType": "TsDoxLocation",
+						"summary": "Reference to the source code where it is declared",
+						"docs": {},
+						"decorators": []
+					},
+					"returnType": {
+						"kind": "property",
+						"name": "returnType",
+						"returnType": "string",
+						"summary": "The return type",
+						"docs": {},
+						"decorators": []
+					},
+					"parameters": {
+						"kind": "property",
+						"name": "parameters",
+						"returnType": "Array<TsDoxParameter>",
+						"summary": "The method parameters",
+						"docs": {},
+						"decorators": []
+					},
+					"decorators": {
+						"kind": "property",
+						"name": "decorators",
+						"returnType": "Array<TsDoxDecorator>",
+						"summary": "The decorator annotations",
+						"docs": {},
 						"decorators": []
 					}
 				},
@@ -1097,46 +1109,33 @@
 			"TsDoxModule": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"module\">"
+				],
+				"implements": [],
 				"name": "TsDoxModule",
 				"location": {
-					"line": 38,
+					"line": 152,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a module",
 				"docs": {},
 				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
 					"location": {
 						"kind": "property",
 						"name": "location",
 						"returnType": "TsDoxLocation",
-						"summary": "",
+						"summary": "Reference to source code",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"decorators": {
 						"kind": "property",
 						"name": "decorators",
 						"returnType": "Array<TsDoxDecorator>",
-						"summary": "",
+						"summary": "The decorator annotations",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1145,69 +1144,52 @@
 			"TsDoxVariable": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"variable\">"
+				],
+				"implements": [],
 				"name": "TsDoxVariable",
 				"location": {
-					"line": 43,
+					"line": 166,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a variable",
 				"docs": {},
 				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
 					"type": {
 						"kind": "property",
 						"name": "type",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The type of the variable",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"signature": {
 						"kind": "property",
 						"name": "signature",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The extracted signature",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"isConst": {
 						"kind": "property",
 						"name": "isConst",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the variable is declared as `cons`",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isLet": {
 						"kind": "property",
 						"name": "isLet",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether the variable is declared as `let`",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					}
 				},
 				"methods": {}
@@ -1215,68 +1197,65 @@
 			"TsDoxClass": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"class\">"
+				],
+				"implements": [],
 				"name": "TsDoxClass",
 				"location": {
-					"line": 50,
+					"line": 188,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a class",
 				"docs": {},
 				"properties": {
-					"kind": {
+					"extends": {
 						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
+						"name": "extends",
+						"returnType": "Array<string>",
+						"summary": "Heritage information",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
+						"decorators": []
+					},
+					"implements": {
+						"kind": "property",
+						"name": "implements",
+						"returnType": "Array<string>",
+						"summary": "Heritage information",
+						"docs": {},
 						"decorators": []
 					},
 					"location": {
 						"kind": "property",
 						"name": "location",
 						"returnType": "TsDoxLocation",
-						"summary": "",
+						"summary": "Reference to source code",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"decorators": {
 						"kind": "property",
 						"name": "decorators",
 						"returnType": "Array<TsDoxDecorator>",
-						"summary": "",
+						"summary": "Annotated decorators",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"properties": {
 						"kind": "property",
 						"name": "properties",
 						"returnType": "TsDoxDict<TsDoxProperty>",
-						"summary": "",
+						"summary": "The class properties",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"methods": {
 						"kind": "property",
 						"name": "methods",
 						"returnType": "TsDoxDict<TsDoxMethod>",
-						"summary": "",
+						"summary": "The class methods",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1285,57 +1264,58 @@
 			"TsDoxInterface": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"interface\">"
+				],
+				"implements": [],
 				"name": "TsDoxInterface",
 				"location": {
-					"line": 57,
+					"line": 218,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes an interface",
 				"docs": {},
 				"properties": {
-					"kind": {
+					"extends": {
 						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
+						"name": "extends",
+						"returnType": "Array<string>",
+						"summary": "Heritage information",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
+						"decorators": []
+					},
+					"implements": {
+						"kind": "property",
+						"name": "implements",
+						"returnType": "Array<string>",
+						"summary": "Heritage information",
+						"docs": {},
 						"decorators": []
 					},
 					"location": {
 						"kind": "property",
 						"name": "location",
 						"returnType": "TsDoxLocation",
-						"summary": "",
+						"summary": "Reference to source code",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"properties": {
 						"kind": "property",
 						"name": "properties",
 						"returnType": "TsDoxDict<TsDoxProperty>",
-						"summary": "",
+						"summary": "The declared properties",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"methods": {
 						"kind": "property",
 						"name": "methods",
 						"returnType": "TsDoxDict<TsDoxMethod>",
-						"summary": "",
+						"summary": "The declared methods",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1344,322 +1324,114 @@
 			"TsDoxFunction": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxCallableEntity<\"function\">"
+				],
+				"implements": [],
 				"name": "TsDoxFunction",
 				"location": {
-					"line": 63,
+					"line": 244,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a function",
 				"docs": {},
-				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"signature": {
-						"kind": "property",
-						"name": "signature",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"location": {
-						"kind": "property",
-						"name": "location",
-						"returnType": "TsDoxLocation",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"returnType": {
-						"kind": "property",
-						"name": "returnType",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"parameters": {
-						"kind": "property",
-						"name": "parameters",
-						"returnType": "Array<TsDoxParameter>",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"decorators": {
-						"kind": "property",
-						"name": "decorators",
-						"returnType": "Array<TsDoxDecorator>",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					}
-				},
+				"properties": {},
 				"methods": {}
 			},
 			"TsDoxMethod": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxCallableEntity<\"method\">"
+				],
+				"implements": [],
 				"name": "TsDoxMethod",
 				"location": {
-					"line": 71,
+					"line": 251,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a class method",
 				"docs": {},
-				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"signature": {
-						"kind": "property",
-						"name": "signature",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"location": {
-						"kind": "property",
-						"name": "location",
-						"returnType": "TsDoxLocation",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"returnType": {
-						"kind": "property",
-						"name": "returnType",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"parameters": {
-						"kind": "property",
-						"name": "parameters",
-						"returnType": "Array<TsDoxParameter>",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"decorators": {
-						"kind": "property",
-						"name": "decorators",
-						"returnType": "Array<TsDoxDecorator>",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					}
-				},
+				"properties": {},
 				"methods": {}
 			},
 			"TsDoxConstructor": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxCallableEntity<\"constructor\">"
+				],
+				"implements": [],
 				"name": "TsDoxConstructor",
 				"location": {
-					"line": 79,
+					"line": 258,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a class constructor",
 				"docs": {},
-				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"signature": {
-						"kind": "property",
-						"name": "signature",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"location": {
-						"kind": "property",
-						"name": "location",
-						"returnType": "TsDoxLocation",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"returnType": {
-						"kind": "property",
-						"name": "returnType",
-						"returnType": "string",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"parameters": {
-						"kind": "property",
-						"name": "parameters",
-						"returnType": "Array<TsDoxParameter>",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
-					"decorators": {
-						"kind": "property",
-						"name": "decorators",
-						"returnType": "Array<TsDoxDecorator>",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					}
-				},
+				"properties": {},
 				"methods": {}
 			},
 			"TsDoxProperty": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"property\">"
+				],
+				"implements": [],
 				"name": "TsDoxProperty",
 				"location": {
-					"line": 87,
+					"line": 265,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a class property",
 				"docs": {},
 				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
 					"returnType": {
 						"kind": "property",
 						"name": "returnType",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The return type",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"isOptional": {
 						"kind": "property",
 						"name": "isOptional",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether it is declared a soptional",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isGetter": {
 						"kind": "property",
 						"name": "isGetter",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether it is/has a getter",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isSetter": {
 						"kind": "property",
 						"name": "isSetter",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Wheter it is/has a setter",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"decorators": {
 						"kind": "property",
 						"name": "decorators",
 						"returnType": "Array<TsDoxDecorator>",
-						"summary": "",
+						"summary": "The annotated decorators",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1668,80 +1440,66 @@
 			"TsDoxParameter": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxParameter",
 				"location": {
-					"line": 95,
+					"line": 291,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a method parameter",
 				"docs": {},
 				"properties": {
 					"kind": {
 						"kind": "property",
 						"name": "kind",
 						"returnType": "",
-						"summary": "",
+						"summary": "Is always `parameter`",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"name": {
 						"kind": "property",
 						"name": "name",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The name of the symbol",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"type": {
 						"kind": "property",
 						"name": "type",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The parameter type",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"summary": {
 						"kind": "property",
 						"name": "summary",
 						"returnType": "string",
-						"summary": "",
+						"summary": "A brief summary",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"isOptional": {
 						"kind": "property",
 						"name": "isOptional",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether it is declared as optional",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"isSpread": {
 						"kind": "property",
 						"name": "isSpread",
 						"returnType": "boolean",
-						"summary": "",
+						"summary": "Whether it is declared with spread operator",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					}
 				},
 				"methods": {}
@@ -1749,46 +1507,39 @@
 			"TsDoxDecorator": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxDecorator",
 				"location": {
-					"line": 103,
+					"line": 321,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a decorator annotation",
 				"docs": {},
 				"properties": {
 					"kind": {
 						"kind": "property",
 						"name": "kind",
 						"returnType": "",
-						"summary": "",
+						"summary": "Is always `decorator`",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"name": {
 						"kind": "property",
 						"name": "name",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The name of the decorator",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"args": {
 						"kind": "property",
 						"name": "args",
 						"returnType": "Array<any>",
-						"summary": "",
+						"summary": "The given arguments to the decorator",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1797,46 +1548,33 @@
 			"TsDoxType": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"type\">"
+				],
+				"implements": [],
 				"name": "TsDoxType",
 				"location": {
-					"line": 108,
+					"line": 339,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes a type",
 				"docs": {},
 				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
 					"location": {
 						"kind": "property",
 						"name": "location",
 						"returnType": "TsDoxLocation",
-						"summary": "",
+						"summary": "Reference to the source code where it is declared",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"signature": {
 						"kind": "property",
 						"name": "signature",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The extracted signature",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1845,46 +1583,33 @@
 			"TsDoxEnum": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [
+					"TsDoxEntity<\"enum\">"
+				],
+				"implements": [],
 				"name": "TsDoxEnum",
 				"location": {
-					"line": 113,
+					"line": 353,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes an enumeration",
 				"docs": {},
 				"properties": {
-					"kind": {
-						"kind": "property",
-						"name": "kind",
-						"returnType": "",
-						"summary": "",
-						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
-					},
 					"location": {
 						"kind": "property",
 						"name": "location",
 						"returnType": "TsDoxLocation",
-						"summary": "",
+						"summary": "Reference to the source code where it is declared",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"members": {
 						"kind": "property",
 						"name": "members",
 						"returnType": "Array<TsDoxEnumMember>",
-						"summary": "",
+						"summary": "The enumeration members",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1893,57 +1618,47 @@
 			"TsDoxEnumMember": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "TsDoxEnumMember",
 				"location": {
-					"line": 118,
+					"line": 367,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
-				"summary": "",
+				"summary": "Describes an enumeration member",
 				"docs": {},
 				"properties": {
 					"name": {
 						"kind": "property",
 						"name": "name",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The name of the enum",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"value": {
 						"kind": "property",
 						"name": "value",
 						"returnType": "string",
-						"summary": "",
+						"summary": "The value of the enum",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"summary": {
 						"kind": "property",
 						"name": "summary",
 						"returnType": "string",
-						"summary": "",
+						"summary": "A brief summary",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					},
 					"docs": {
 						"kind": "property",
 						"name": "docs",
 						"returnType": "TsDoxDict<any>",
-						"summary": "",
+						"summary": "A documentation object",
 						"docs": {},
-						"isOptional": false,
-						"isGetter": false,
-						"isSetter": false,
 						"decorators": []
 					}
 				},
@@ -1969,14 +1684,14 @@
 			"Kind": {
 				"isExported": true,
 				"location": {
-					"line": 6,
+					"line": 9,
 					"character": 0,
 					"file": "src/runtime/types.ts"
 				},
 				"kind": "type",
 				"name": "Kind",
 				"signature": "export type Kind = \"file\" | \"type\" | \"interface\" | \"enum\" | \"class\" | \"module\" | \"function\" | \"method\" | \"constructor\" | \"property\" | \"variable\"",
-				"summary": "",
+				"summary": "Defines known symbol types",
 				"docs": {}
 			}
 		}
@@ -1989,6 +1704,8 @@
 			"FindOptions": {
 				"isExported": true,
 				"kind": "interface",
+				"extends": [],
+				"implements": [],
 				"name": "FindOptions",
 				"location": {
 					"line": 2,
@@ -2001,24 +1718,20 @@
 					"pkg": {
 						"kind": "property",
 						"name": "pkg",
-						"returnType": "",
+						"returnType": "string | RegExp",
 						"summary": "",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					},
 					"name": {
 						"kind": "property",
 						"name": "name",
-						"returnType": "",
+						"returnType": "string | RegExp",
 						"summary": "",
 						"docs": {},
-						"isOptional": true,
-						"isGetter": false,
-						"isSetter": false,
-						"decorators": []
+						"decorators": [],
+						"isOptional": true
 					}
 				},
 				"methods": {}
@@ -2034,7 +1747,7 @@
 				},
 				"kind": "function",
 				"name": "select",
-				"signature": "export function select(input: TsDoxFile | TsDoxFile[], kind: Kind, options: FindOptions) ",
+				"signature": "export function select(input: TsDoxFile | TsDoxFile[], kind: Kind, options: FindOptions = {}) ",
 				"returnType": "",
 				"summary": "",
 				"docs": {},
@@ -2042,26 +1755,20 @@
 					{
 						"kind": "parameter",
 						"name": "input",
-						"type": "",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"type": "TsDoxFile | Array<TsDoxFile>",
+						"summary": ""
 					},
 					{
 						"kind": "parameter",
 						"name": "kind",
 						"type": "Kind",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"summary": ""
 					},
 					{
 						"kind": "parameter",
 						"name": "options",
 						"type": "FindOptions",
-						"summary": "",
-						"isOptional": false,
-						"isSpread": false
+						"summary": ""
 					}
 				],
 				"decorators": []

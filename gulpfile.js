@@ -11,4 +11,6 @@ gulp.task("docs", () => {
       spacer: "\t",
     }))
     .pipe(gulp.dest("doc"))
+    .pipe(dox.transformMarkdown())
+    .pipe(gulp.dest("doc/markdown"))
 })
