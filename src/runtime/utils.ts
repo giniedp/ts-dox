@@ -1,4 +1,4 @@
-import { TsDoxClass, TsDoxFile, TsDoxInterface, TsDoxFunction, TsDoxEnum, Kind, TsDoxVariable, TsDoxType, TsDoxModule } from "./types"
+import { TsDoxClass, TsDoxFile, TsDoxInterface, TsDoxFunction, TsDoxEnum, Kind, TsDoxVariable, TsDoxType, TsDoxModule, TsDoxDict } from "./types"
 
 export interface FindOptions {
   pkg?: string | RegExp
@@ -18,14 +18,14 @@ function kindToKey(kind: Kind): keyof TsDoxFile {
   return null
 }
 
-export function select(input: TsDoxFile | TsDoxFile[], kind: "module", options: FindOptions): TsDoxModule[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: "class", options: FindOptions): TsDoxClass[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: "interface", options: FindOptions): TsDoxInterface[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: "function", options: FindOptions): TsDoxFunction[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: "enum", options: FindOptions): TsDoxEnum[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: "type", options: FindOptions): TsDoxType[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: "variable", options: FindOptions): TsDoxVariable[]
-export function select(input: TsDoxFile | TsDoxFile[], kind: Kind, options: FindOptions) {
+export function select(input: TsDoxFile | TsDoxFile[], kind: "module", options?: FindOptions): TsDoxModule[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "class", options?: FindOptions): TsDoxClass[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "interface", options?: FindOptions): TsDoxInterface[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "function", options?: FindOptions): TsDoxFunction[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "enum", options?: FindOptions): TsDoxEnum[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "type", options?: FindOptions): TsDoxType[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: "variable", options?: FindOptions): TsDoxVariable[]
+export function select(input: TsDoxFile | TsDoxFile[], kind: Kind, options: FindOptions = {}) {
   const list = Array.isArray(input) ? input : [input]
   const pkgFilter = typeof options.pkg === "string" ? new RegExp(options.pkg) : options.pkg
   const key = kindToKey(kind)
