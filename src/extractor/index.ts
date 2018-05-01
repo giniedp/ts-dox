@@ -7,15 +7,20 @@ import { Transform } from "stream"
 /**
  * Parses the given file and extracts typescript AST as JSON
  *
- * @param file - Path to the file
- * @param text - The file content
+ * @param file Path to the file
+ * @param text The file content
  */
-export function extract(file: string, text?: string) {
+export function extract(file: string, text?: string, program?: ts.Program) {
   if (!text) {
     text = fs.readFileSync(file).toString()
   }
   const src = ts.createSourceFile(file, text, ts.ScriptTarget.ES2015, true)
-  return visit(src, src, {})
+  return visit({
+    src: src,
+    node: src,
+    output: {},
+    program: program,
+  })
 }
 
 function transformFile(options: {
@@ -38,7 +43,7 @@ function transformFile(options: {
  */
 export function transform(options: {
   concat?: string,
-  transform?: (input: any) => any,
+  map?: (input: any) => any,
   spacer?: number | string
 } = {}) {
 
