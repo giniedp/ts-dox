@@ -24,5 +24,11 @@
     "extract",
     "json",
     "library"
+  ],
+  "files": [
+    "lib",
+    "package.json",
+    "README.md",
+    "LICENSE"
   ]
 }
