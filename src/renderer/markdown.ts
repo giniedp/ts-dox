@@ -3,16 +3,22 @@ import * as path from "path"
 import { TsDoxFile, TsDoxClass, TsDoxInterface, TsDoxFunction, TsDoxMethod, TsDoxEntity, TsDoxEnum } from "../runtime"
 import { MdWriter } from "./writer";
 import { select } from "../runtime/utils";
+import * as  Vinyl from 'vinyl';
 
-function transform(file, encoding, cb) {
+function transform(this: Transform, file, encoding, cb) {
     const json = JSON.parse(file.contents.toString())
     walkMarkdown(Array.isArray(json) ? json : [json], (content, name) => {
-      const result = Object.create(file.constructor.prototype)
-      result.history = []
-      result.path = file.base + "/" + name
-      result.base = file.base
-      result.contents = new Buffer(content)
-      this.push(result)
+      // const result = Object.create(file.constructor.prototype)
+      // result.history = []
+      // result.path = file.base + "/" + name
+      // result.base = file.base
+      // result.contents = Buffer.from(content)
+      this.push(new Vinyl({
+        cwd: file.cwd,
+        path: file.base + "/" + name,
+        base: file.base,
+        contents: Buffer.from(content),
+      }))
     })
     cb(null, null)
   }

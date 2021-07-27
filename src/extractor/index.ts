@@ -33,7 +33,7 @@ function transformFile(options: {
     const mapped = options.map ? options.map(json) : json
     const text = JSON.stringify(mapped, null, options.spacer || 0)
     file.path = file.path.replace(/\.(ts|js|tsx)$/, ".json")
-    file.contents = new Buffer(text)
+    file.contents = Buffer.from(text)
     cb(null, file)
   }
 }
@@ -72,7 +72,7 @@ export function transform(options: {
     const file = files[0]
     files.length = 0
     file.path = path.join(file.base, options.concat)
-    file.contents = new Buffer(text)
+    file.contents = Buffer.from(text)
     cb(null, file)
   }
   return new Transform({

@@ -14,8 +14,8 @@
     "url": "github.com/giniedp/ts-dox.git"
   },
   "devDependencies": {
-    "@types/node": "^9.6.5",
-    "gulp": "^3.9.1",
+    "@types/node": "^16.4.3",
+    "gulp": "^4.0.2",
     "typescript": "^4.3.5"
   },
   "keywords": [

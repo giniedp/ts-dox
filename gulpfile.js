@@ -4,7 +4,7 @@ const gulp = require("gulp")
 const dox = require("./lib")
 
 gulp.task("docs", () => {
-  gulp
+  return gulp
     .src("src/**/*.ts")
     .pipe(dox.transform({
       concat: "api.json",

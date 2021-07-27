@@ -5,7 +5,9 @@
     "outDir": "lib",
     "target": "es2016",
     "module": "commonjs",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   },
   "exclude": [
     "test",

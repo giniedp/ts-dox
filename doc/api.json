@@ -224,7 +224,7 @@
 			"transformMarkdown": {
 				"isExported": true,
 				"location": {
-					"line": 19,
+					"line": 25,
 					"character": 0,
 					"file": "src/renderer/markdown.ts"
 				},
