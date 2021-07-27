@@ -174,10 +174,10 @@ function location(node: ts.Node, ctx: Ctx): TsDoxLocation {
   }
 }
 
-function remarks(node: ts.Node): string {
-  const doc = (ts.getJSDocTags(node) || []).find((it) => it.tagName.escapedText === "remarks")
-  return doc ? doc.comment.trim() : ""
-}
+// function remarks(node: ts.Node): string {
+//   const doc = (ts.getJSDocTags(node) || []).find((it) => it.tagName.escapedText === "remarks")
+//   return doc ? doc.comment.trim() : ""
+// }
 
 function entityAccess(flags: ts.ModifierFlags): TsDoxAccessModifiers {
   const result: TsDoxAccessModifiers = {}
@@ -277,7 +277,7 @@ function typeName(node: ts.TypeNode): string {
   }
 
   if (ts.isTupleTypeNode(node)) {
-    return `[${node.elementTypes.map(it => typeName(it))}]`
+    return `[${node.elements.map(it => typeName(it))}]`
   }
 
   if (ts.isUnionTypeNode(node)) {
@@ -369,7 +369,7 @@ function parameter(node: ts.ParameterDeclaration, ctx: Ctx): TsDoxParameter {
     kind: "parameter",
     name: tokenName(node.name),
     type: typeName(node.type),
-    summary: tags && tags.length ? tags[0].comment : "",
+    summary: tags && tags.length ? String(tags[0].comment) : "",
   }
   if (node.questionToken) result.isOptional = true
   if (node.dotDotDotToken) result.isSpread = true
